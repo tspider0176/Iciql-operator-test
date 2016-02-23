@@ -1,0 +1,15 @@
+.idea/
+.vagrant/
+.gradle/
+.DS_Store
+.classpath
+.project
+.settings/
+*iml
+*ipr
+*iws
+pom.xml
+build.xml
+lib/emsCommonFramework.jar
+build/
+generated/
