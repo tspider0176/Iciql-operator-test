@@ -29,12 +29,12 @@ public class OperatorTest {
         > create database test;
         > \c test
         > CREATE TABLE student (
-            id     integer primary key NOT NULL,
+            id     SERIAL primary key NOT NULL,
             name   varchar(254) NOT NULL
           );
 
         > CREATE TABLE music (
-            id      integer NOT NULL,
+            id      SERIAL NOT NULL,
             title   varchar(254) NOT NULL,
             release date NOT NULL
           );
@@ -236,7 +236,6 @@ public class OperatorTest {
         try {
             // db接続
             com.iciql.Db db = com.iciql.Db.open(url, "vagrant", "vagrant");
-            Student student = new Student();
 
             // IsNull用にカラムinsert
             db.insert(new Student(null, null));
@@ -423,6 +422,25 @@ public class OperatorTest {
         assertThat(result, is(Arrays.asList(
                         new Music(2, "Jumpstyle", DATE2),
                         new Music(3, "Rawstyle", DATE3)))
+        );
+    }
+
+    @Test
+    public void testIsNot(){
+        // db接続
+        com.iciql.Db db = com.iciql.Db.open(url, "vagrant", "vagrant");
+        Student student = new Student();
+
+        List<Student> result = db.from(student)
+                .where(student.id)
+                .isNot(2)
+                .select();
+
+        assertThat(result.size(), is(3));
+        assertThat(result, is(Arrays.asList(
+                        new Student(1, "Tom"),
+                        new Student(3, "John"),
+                        new Student(4, "Mike")))
         );
     }
 }
